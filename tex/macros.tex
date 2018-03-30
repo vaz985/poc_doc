@@ -1,0 +1,111 @@
+%\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage{nicefrac}
+%\usepackage{stmaryrd} % for \llbracket and \rrbracket
+%\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{rotate}
+\usepackage{wrapfig}
+%\usepackage{hyperref}
+%\usepackage{mathtools}
+%\usepackage[titletoc]{appendix}
+\usepackage{subcaption}
+
+%%%%%%
+% Comment
+%
+\newif\ifcommentson\commentsonfalse
+%\newif\ifcommentson\commentsontrue
+\def\mywidth{.9}        %\def\mywidth{.45}
+\def\mywidthRep{.8} %\def\mywidthRep{.43}
+\ifcommentson
+\newcommand{\commentAA}[1]{\begin{center} \parbox{\mywidth\textwidth}{\textbf{\textcolor{black}{Comment A.}} \textcolor{red}{#1 }}\end{center}}
+\newcommand{\commentAB}[1]{\begin{center} \parbox{\mywidth\textwidth}{\textbf{\textcolor{black}{Comment B.}} \textcolor{red}{#1} }\end{center}}
+\newcommand{\commentMA}[1]{\begin{center} \parbox{\mywidth\textwidth}{\textbf{\textcolor{black}{Comment M.}} \textcolor{red}{#1} }\end{center}}
+%
+\newcommand{\replyAA}[1]{\begin{center} \parbox{\mywidthRep\textwidth}{\textbf{Reply A.} \textcolor{blue}{#1} }\end{center}}
+\newcommand{\replyAB}[1]{\begin{center} \parbox{\mywidthRep\textwidth}{\textbf{Reply B.} \textcolor{blue}{#1} }\end{center}}
+\newcommand{\replyMA}[1]{\begin{center} \parbox{\mywidthRep\textwidth}{\textbf{Reply M.} \textcolor{blue}{#1} }\end{center}}
+%
+\newcommand{\commentA}[1]{\marginpar{\footnotesize \color{red} {\bf A:} \textsf{\scriptsize #1}}}
+\newcommand{\commentB}[1]{\marginpar{\footnotesize \color{red} {\bf B:} \textsf{\scriptsize #1}}}
+\newcommand{\commentM}[1]{\marginpar{\footnotesize \color{red} {\bf M:} \textsf{\scriptsize #1}}}
+%
+\newcommand{\replyA}[1]{\marginpar{\footnotesize \color{blue} {\bf A:} \textsf{\scriptsize #1}}}
+\newcommand{\replyB}[1]{\marginpar{\footnotesize \color{red} {\bf B:} \textsf{\scriptsize #1}}}
+\newcommand{\replyM}[1]{\marginpar{\footnotesize \color{red} {\bf M:} \textsf{\scriptsize #1}}}
+%
+\else
+\newcommand{\commentAA}[1]{}
+\newcommand{\commentAB}[1]{}
+\newcommand{\commentMA}[1]{}
+\newcommand{\replyAA}[1]{}
+\newcommand{\replyAB}[1]{}
+\newcommand{\replyMA}[1]{}
+\newcommand{\commentA}[1]{}
+\newcommand{\commentB}[1]{}
+\newcommand{\commentM}[1]{}
+\newcommand{\replyA}[1]{}
+\newcommand{\replyB}[1]{}
+\newcommand{\replyM}[1]{}
+\fi
+%%%%%%
+
+% Macros for this paper specifically.
+%Macros for changing after review
+%\newcommand{\review}[1]{\textcolor{blue}{#1}} 
+\newcommand{\review}[1]{#1}
+\newcommand{\cutout}[1]{\textcolor{red}{#1}}
+%\newcommand{\cutout}[1]{}
+
+
+%\newcommand\Cite[1]{[\textbf{\color{red}{#1}}]} % Use for a citation to be filled-in later.
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Lemma}[Theorem]{Lemma}
+\newtheorem{Corollary}[Theorem]{Corollary}
+\newtheorem{Proposition}[Theorem]{Proposition}
+\newtheorem{Conjecture}[Theorem]{Conjecture}
+\newtheorem{Definition}[Theorem]{Definition}
+\newtheorem{Example}[Theorem]{Example}
+
+\newcommand{\calw}{\mathcal{W}}
+\newcommand{\calx}{\mathcal{X}}
+\newcommand{\caly}{\mathcal{Y}}
+\newcommand{\calz}{\mathcal{Z}}
+\newcommand{\calf}{\mathcal{F}}
+\newcommand{\calg}{\mathcal{G}}
+
+\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\sqcup}}
+%\newcommand{\hoper}{{}_p\oplus}
+\newcommand{\hchoice}[1]{\;{{}_{\mathit{#1}}{\oplus}}\;} % operator to be used among parameters: it gives nice spacing.
+\newcommand{\hchoiceop}[1]{{}_{\mathit{#1}}{\oplus}} % name of the operator, to be used when no paramaters are needed.
+%\newcommand{\voper}{{}_{p}\cupdot}
+\newcommand{\vchoice}[1]{\;{{}_{\mathit{#1}}{\cupdot}}\;} % operator to be used among parameters: it gives nice spacing.
+\newcommand{\vchoiceop}[1]{{}_{\mathit{#1}}{\cupdot}} % name of the operator, to be used when no paramaters are needed.
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\dist}{\mathbb{D}}
+\newcommand{\imp}{\Rightarrow}
+\newcommand{\conc}{\otimes}
+
+\newcommand{\qm}[1]{``#1''}
+
+\newcommand{\hyperc}[2]{[#1 , #2]} % Hyper [\pi > C] created by pushing a prior \pi through a channel C
+\newcommand{\ggid}{g_{\mathit{id}}} % g_id gain function
+\newcommand{\vgid}{V_{\gid}} % V_{g_{id}}, the g-vulnerability corresponding to g_id
+\newcommand{\pchoice}[1]{\;{{}_{\mathit{#1}}\oplus}\;}%redefined by Catuscia probabilistic choice
+\newcommand{\zeromat}{\hat{0}}
+\newcommand{\nullchannel}{\overline{0}} % Null channel.
+\renewcommand{\equiv}{\approx}
+
+\usepackage[bookmarks=false,linktocpage=true,colorlinks=false]{hyperref} % For use of \href{}.
+
+% vulnerabilities
+\newcommand{\vg}{V_{g}} % name of g-vulnerability
+\newcommand{\priorvg}[1]{\vg\left[#1\right]} % prior g-vulnerability
+\newcommand{\postvg}[2]{\vg\left[#1,#2\right]} % posterior g-vulnerability
+\newcommand{\vf}{\mathbb{V}} % name of generic vulnerability function
+\newcommand{\priorvf}[1]{\vf\!\left[#1\right]} % prior generiic vulnerabiltiy fuction
+\newcommand{\postvf}[2]{\vf\!\left[#1,#2\right]} % posterior generiic vulnerabiltiy fuction
+
+% math
+\newcommand{\eqdef}{\ensuremath{\stackrel{\mathrm{def}}{=}}}

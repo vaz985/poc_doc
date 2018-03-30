@@ -1,0 +1,95 @@
+\documentclass[runningheads,a4paper]{llncs2e/llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+%\usepackage[normalweight=Book]{fdsymbol}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[utf8]{inputenc}
+%\usepackage[brazil]{babel}
+
+%\usepackage{savesym}
+%\savesymbol{\oplus}
+%\usepackage{ntheorem}
+
+%\overfullrule=0.5cm % Highlights any line going over the righthand-side margin.
+
+\usepackage{url}
+\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
+\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\input{macros}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Uma implementação de Quantitative Information Flow}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{POC I}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Artur Vaz\inst{1} 
+\and M{\'a}rio S. Alvim\inst{1}}
+%
+\authorrunning{Artur Vaz}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Universidade Federal de Minas Gerais, Brazil}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+\section{Introdução}
+\label{sec:introducao}
+\input{introduction}
+
+\section{Referencial Teórico}
+\label{sec:referencial_teorico}
+\input{ref_teorico}
+
+\section{Metodologia}
+\label{sec:metodologia}
+\input{metodologia}
+
+\section{Resultados Esperados}
+\label{sec:resultados}
+\input{resultados}
+
+\section{Etapas e Cronograma}
+\label{sec:etapas}
+\input{etapas}
+
+\bibliographystyle{abbrv}
+\bibliography{references,short}
+
+\appendix
+%\input{password-example}
+
+%\input{working-notes}
+
+\end{document}

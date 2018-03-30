@@ -1,0 +1,28 @@
+In this paper we have explored the use of model checking to compute bounds on quantitative information flow.
+Our approach is to express protocols as transition systems and then to use probabilistic model checking to 
+compute a channel abstraction. 
+The benefits of this approach are that protocols can be expressed in a direct way, 
+%and their abstraction as a the full channel is computed from it. 
+\review{and their abstraction as a channel can be easily computed.}
+\review{By} computing the whole channel, rather than say a specific leakage or capacity measure,
+%is then available for use with any appropriate gain function.
+\review{we make it available for use with any appropriate gain function.}
+ 
+Other work on computing information flow~\cite{McIver:15:LICS} gives a semantics of programs as hidden 
+Markov models, of which channels are a special case.  
+This allows hyper-distributions---a compact form of posterior joint distributions---to be computed directly. 
+With this generality the monadic features of functional programming languages can be exploited to compute 
+leakage w.r.t. arbitrary gain functions~\cite{Morgan:17:TechRep}.
+
+Other approaches to computing information flow typically use alternative measures. 
+For example, McCamant and Ernst~\cite{McCamant:08:SIGPLAN} provide estimates for the quantity of bits 
+flowing from input to output (of programs) using network flow capacity. 
+Novakovic~\cite{Novakovic:14:Thesis} uses a model based on mutual information (Shannon) and min-entropy; 
+the starting point for the analysis is a program expressed in a probabilistic imperative language, 
+with an interpretation based on DTMCs.  
+\review{High Order Logic theorem provers  were used by H{\" o}lz and Nipkow\cite{revcrowds} to study properties of the Crowds protocol and its behavior regarding Shannon entropy, and by Helali et al. \cite{revminentropy} to derive general results regarding min-entropy and belief min-entropy.}
+Finally, Phan et al.~\cite{Phan:14:SPIN} use reliability analysis to quantify leaks, also 
+based on Shannon- and min-entropy.
+
+
+

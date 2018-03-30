@@ -1,0 +1,350 @@
+%Here we briefly review the standard framework of
+%quantitative information flow, 
+%which is used to measure the amount of information 
+%leakage in a system.
+  
+\subsubsection{Secrets and vulnerability.}
+A \emph{secret} is some piece of sensitive information the 
+defender wants to protect, such as a user's password, social 
+security number, or current location. 
+The attacker usually only has some partial knowledge 
+about the value of a secret, represented as a probability
+distribution on secrets called a \emph{prior}.
+We denote by $\calx$ the set of possible secrets,
+and we typically use $\pi$ to denote a prior belonging to 
+the set $\dist{\calx}$ of probability distributions over 
+$\calx$. 
+
+The \emph{vulnerability} of a secret is a measure of the utility 
+of the attacker's knowledge about the secret. 
+Several notions of vulnerability (or their dual concept, \emph{entropy}) 
+have been proposed in the literature, including Shannon entropy~\cite{Shannon:48:Bell},
+guessing entropy~\cite{Massey:94:IT}, and Bayes vulnerability/risk~\cite{Smith:09:FOSSACS,Chatzikokolakis:08:JCS}.
+
+Recently, the \emph{$g$-vulnerability} framework~\cite{alvim}
+has been proposed, consisting of a family of vulnerability 
+measures that capture various adversarial models.
+It has been shown that these functions coincide with the set of 
+continuous and convex functions on $\dist{\calx}$, and are, 
+in a precise sense, the most general information measures w.r.t. a 
+set of basic axioms.~\footnote{
+More precisely, if posterior vulnerability 
+is defined as the expectation of the vulnerability of posterior
+distributions, 
+%(as in Equation~\eqref{eq:postvf}), 
+the measure respects the data-processing inequality 
+and yields non-negative leakage iff
+vulnerability is convex.}
+In this paper we shall adopt $g$-vulnerabilities as our measures
+of information.
+
+The operational scenario captured by $g$-vulnerabilities 
+is parameterized by a set $\calw$ of
+\emph{guesses} (possibly infinite) that the attacker can take
+w.r.t. a secret, and a \emph{gain function}
+$g : \calw \times \calx \rightarrow \reals$. 
+The gain $g(w,x)$ expresses the attacker's benefit for making
+guess $w$ when the actual secret is $x$.
+Given a distribution $\pi$, \emph{(prior) $g$-vulnerability} measures
+the attacker's success as the expected gain of an optimal guess, being
+defined as
+\begin{align*}
+\priorvg{\pi} 
+\eqdef &\, \max_{w \in \calw} \sum_{x \in \calx} \pi(x) g(w,x).
+\end{align*}
+
+\subsubsection{Channels, posterior vulnerability, and leakage.}
+Systems can be modeled as information
+theoretic channels.
+A 
+\emph{channel matrix}, or simply a 
+\emph{channel},
+$C : \calx \times \caly \rightarrow \reals$ is a function
+in which $\calx$ is a set of \emph{input values}, $\caly$ is a set 
+of \emph{output values}, and $C(x,y)$ represents the conditional 
+probability of the channel producing output $y \in \caly$ when 
+input $x \in \calx$ is provided. 
+Every channel $C$ satisfies $0 \leq C(x,y) \leq 1$ for all 
+$x\in\calx$ and $y\in\caly$, and $\sum_{y\in\caly} C(x,y) = 1$ for all $x\in\calx$.
+
+A distribution $\pi\in\dist{\calx}$ and a channel $C$ 
+with inputs $\calx$ and outputs $\caly$ induce a joint distribution
+$p(x,y) = \pi(x)C({x,y})$ on $\calx \times \caly$,
+producing joint random variables $X, Y$ with marginal 
+probabilities $p(x) = \sum_{y} p(x,y)$ and 
+$p(y) = \sum_{x} p(x,y)$, and conditional probabilities 
+%$p(y{\mid}x) = \nicefrac{p(x,y)}{p(x)}$ (if $p(x)$ is non-zero) and
+$p(x{\mid}y) = \nicefrac{p(x,y)}{p(y)}$ if $p(y) \neq 0$. 
+% \commentYK{The following is not used anywhere in this paper.}
+%Note that $p_{XY}$ is the unique joint distribution that recovers
+%$\pi$ and $C$, in that $p(x) = \pi(x)$ and $p(y{\mid}x) = C({x,y})$ (if $p(x)$ is non-zero).\footnote{To avoid ambiguity, we may use subscripts on 
+%distributions , e.g., $p_{XY}$, $p_{Y}$ or $p_{X \mid Y}$.}
+For a given $y$ (s.t. $p(y) \neq 0$), the conditional 
+probabilities $p(x{\mid}y)$ for each $x \in \calx$ form the 
+\emph{posterior distribution $p_{X \mid y}$}.%
+\footnote{To avoid ambiguity, we may write probabilities
+with subscripts, e.g., $p_{XY}$ or $p_{Y}$.}
+
+A channel $C$ in which $\calx$ is a set of secret values 
+and $\caly$ is a set of observable values produced
+by a system can be used to model computations on secrets.
+Assuming the attacker has prior knowledge $\pi$ about
+the secret value, knows how a channel $C$ works, and
+can observe the channel's outputs, the effect of the channel 
+is to update the attacker's knowledge from a prior $\pi$ to a 
+collection of posteriors $p_{X \mid y}$, each occurring 
+with probability $p(y)$.%
+\footnote{This collection of posterior distributions is,
+in fact, a distribution on (posterior) distributions, 
+and is called a \emph{hyper-distribution} on secrets~\cite{McIver:10:ICALP}.}
+
+\begin{example}
+\label{exa:hypers}
+Given $\calx=\{x_{1},x_{2},x_{3}\}$ and $\caly=\{y_{1},y_{2},y_{3},y_{4}\}$, 
+and the channel matrix $C$ below, the (uniform) prior 
+$\pi = (\nicefrac{1}{3}, \nicefrac{1}{3}, \nicefrac{1}{3})$ combined with
+$C$ leads to the joint matrix $J$ as follows.
+\begin{align*}
+\begin{array}{|c|cccc|}
+\hline
+C & \,\,\,y_{1}\,\,\, & \,\,\,y_{2}\,\,\, & \,\,\,y_{3}\,\,\, & \,\,\,y_{4}\,\,\,
+\\ \hline
+x_{1} & 1 & 0 & 0 & 0 \\
+x_{2} & 0 & \nicefrac{1}{2} & \nicefrac{1}{4} & \nicefrac{1}{4} \\
+x_{3} & \nicefrac{1}{2} & \nicefrac{1}{3} & \nicefrac{1}{6} & 0 \\
+\hline
+\end{array}
+\quad
+\stackrel{\pi}{\longrightarrow}
+\quad
+\begin{array}{|c|cccc|}
+\hline
+J & \,\,\,y_{1}\,\,\, & \,\,\,y_{2}\,\,\, & \,\,\,y_{3}\,\,\, & \,\,\,y_{4}\,\,\, 
+\\ \hline
+x_{1} & \nicefrac{1}{3} & 0 & 0 & 0 \\
+x_{2} & 0 & \nicefrac{1}{6} & \nicefrac{1}{12} & \nicefrac{1}{12} \\
+x_{3} & \nicefrac{1}{6} & \nicefrac{1}{9} & \nicefrac{1}{18} & 0 \\
+\hline
+\end{array}
+\end{align*}
+Summing the columns of $J$ gives the marginal distribution 
+$p_{Y}=(\nicefrac{1}{2},\nicefrac{5}{18},\nicefrac{5}{36},\nicefrac{1}{12})$,
+and normalizing gives the posterior distributions
+$p_{X \mid y_{1}} = (\nicefrac{2}{3},0,\nicefrac{1}{3})$,
+$p_{X \mid y_{2}} = (0,\nicefrac{3}{5},\nicefrac{2}{5})$,
+$p_{X \mid y_{3}} = (0,\nicefrac{3}{5},\nicefrac{2}{5})$, and
+$p_{X \mid y_{4}} = (0,1,0)$.
+\qed
+\end{example}
+
+The \emph{posterior vulnerability} is the vulnerability 
+of the secret after the attacker observed the output of 
+the channel.
+Formally, given a $g$-vulnerability $\vg$, the 
+\emph{posterior $g$-vulnerability} w.r.t. a prior $\pi$ and a channel $C$ 
+is defined as
+\begin{align*}
+%\label{eq:postvg}
+\review{V_g} \hyperc{\pi}{C}
+\eqdef&\, \sum_{y \in \caly}p(y)V_g(p(X|_y) \\
+=&\, \sum_{y \in \caly} \max_{w \in \calw} \sum_{x \in \calx} \pi(x) C({x,y}) g(w,x).
+\end{align*}
+
+The \emph{information leakage} of 
+a channel $C$ under a prior $\pi$ is a comparison between 
+the vulnerability of the secret before the system
+was run---called \emph{prior vulnerability}---and the 
+posterior vulnerability of the secret.
+Leakage, then, reflects by how much the observation of the 
+system's outputs increases the utility of the attacker's 
+knowledge about the secret. 
+It can be defined either
+\begin{align*}
+\textit{multiplicatively:} \qquad \mathcal{L}_{g}\hyperc{\pi}{C} = \frac{\review{V_g} \hyperc{\pi}{C}}{\review{V_g}[\pi]},
+\end{align*}
+which measures the relative increase in the adversary's information about the secret; or
+\begin{align*}
+\textit{additively:} \qquad \mathcal{L}^{+}_{g}\hyperc{\pi}{C} = \review{V_g}\hyperc{\pi}{C}-\review{V_g}[\pi],
+\end{align*}
+which measures the absolute increase in the adversary's information. 
+
+%\review{Despite being similar, considering both the multiplicative
+%and additive leakages is imperative in order to obtain a better understanding of a channel.
+%Depending on the system itself, on the nature of the secret inputs, 
+%and even on the interests of the adversary, 
+%one definition of leakage may be more suitable than the other
+%to express information leakage on a certain scenario~\cite{addmult}.}
+\review{Multiplicative and additive versions of leakage provide
+complimentary information about the behavior of a channel.
+Depending on the system itself, on the nature of the secret inputs, 
+and even on the interests of the adversary, 
+one definition of leakage may be more suitable than the other
+to express information leakage on a certain scenario,
+but in general a proper assessment of leakage may have to take
+both versions into consideration~\cite{addmult}.}
+
+\subsubsection{Capacities.}
+Although both multiplicative and additive $g$-leakages represent useful 
+quantities, to properly compute them one needs to know
+not only the channel $C$ representing the system, but also the prior 
+$\pi$ and the gain-function $g$, and both can vary depending on the adversary's 
+knowledge and interests.
+For robustness, we can consider \emph{capacities}, which are leakage 
+measures that universally quantify over the prior $\pi$, over the gain 
+function $g$, or over both, making the measurements less dependent on the
+particular context in which the system will run. 
+
+Quantifying over the prior $\pi$ acknowledges that, in many situations,
+it is unknown and the assumption that it is uniform is not reasonable. 
+Quantifying over the gain function $g$ acknowledges that we might not know 
+the value to the adversary of different sorts of partial information about 
+the secret, neither now nor even in the future. 
+%(In medical research, for instance, new
+%correlations between diet and susceptibility to disease are
+%constantly discovered: although knowing someone’s favorite
+%dish might be relatively harmless today, it might not be sothe future.)
+Combining all ways of quantifying over $\pi$ and $g$ (one, other, or both),
+and the two versions of leakage (multiplicative and additive), 
+we arrive at a total of six 
+types of capacities, which are depicted in Table~\ref{tab:capacities}.
+%Since we can universally quantify over the prior $\pi$, over
+%the gain function $g$, or over both, and since we are interested
+%in both multiplicative- and additive g-leakage, we arrive at a total of six 
+%scenarios, which are depicted in Table~\ref{tab:capacities}.
+
+\begin{table}[htb]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c||c|c|}
+\hline
+\textbf{\,\,\,Types of Capacities\,\,\,} & \,\,\,\,\,\,\,Multiplicative Leakage\,\,\,\,\,\,\, & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,Additive Leakage\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,
+\\ \hline \hline
+For all $\pi$, fixed $g$ 
+& $\mathcal{L}_g\hyperc{\forall}{C}=\max\limits_{\pi} \mathcal{L}_g\hyperc{\pi}{C}$ 
+& $\mathcal{L}^+_g\hyperc{\forall}{C}=\max\limits_{\pi} \mathcal{L}^+_g\hyperc{\pi}{C}$ 
+\\ \hline
+Fixed $\pi$, for all $g$ 
+& $\mathcal{L}_\forall\hyperc{\pi}{C}=\max\limits_{g} \mathcal{L}_g\hyperc{\pi}{C}$
+& $\mathcal{L}^+_\forall\hyperc{\pi}{C}=\max\limits_{g} \mathcal{L}^+_g\hyperc{\pi}{C}$ 
+\\ \hline
+For all $\pi$, for all $g$ 
+& $\mathcal{L}_\forall\hyperc{\forall}{C}=\max\limits_{\pi,g} \mathcal{L}_g\hyperc{\pi}{C}$ 
+& $\mathcal{L}^+_\forall\hyperc{\forall}{C}=\max\limits_{\pi,g} \mathcal{L}^+_g\hyperc{\pi}{C}$
+\\ \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\vspace{2mm}
+\caption{Types of capacities.}
+\label{tab:capacities}
+\end{table}
+
+Although finding a way to compute the capacities
+$\mathcal{L}_g\hyperc{\forall}{C}$ and $\mathcal{L}^+_\forall\hyperc{\forall}{C}$
+is still an open problem, there are known algorithms for computing the other 
+four capacities~\cite{addmult}.
+More precisely, $\mathcal{L}_\forall\hyperc{\pi}{C}$, 
+$\mathcal{L}_\forall\hyperc{\forall}{C}$, and 
+$\mathcal{L}^+_\forall\hyperc{\pi}{C}$ can be computed in time linear on the size 
+of the channel $C$. 
+$\mathcal{L}^+_g\hyperc{\forall}{C}$, however, is NP-hard. 
+We will use these capacities to compare our protocols in Section~\ref{sec:analyz}.
+
+\review{Capacities are upper bounds on the information leakage of a protocol 
+over a variety of combinations of adversarial prior knowledge about the secret 
+(captured by different priors), and of adversarial intentions and interests 
+(captured by different gain functions). 
+For this reason, they are particularly useful bounds on the leakage of channels
+that will execute in possibly unknown contexts.
+}
+
+% Arthur's old section comes here.
+
+%In  the QIF framework, security systems are modeled as information-theoretical channels. 
+%A channel $C: \calx \times \caly \rightarrow \reals$ is a real valued function whose 
+%domain is the Cartesian product between a (finite) set of \emph{inputs}, 
+%or \emph{secret values}, $\calx$, and a (also finite) set of \emph{outputs}, or \emph{observables}, $\caly$. T
+%he channel is then defined as $ C(x,y) = p(y|x),$, for all $x \in \calx$ and $y \in \caly$.
+%Thus, $C(x,y)$ is the probability of the system producing observable $y$ given that 
+%the secret value was $x$. 
+%
+%In order to model a system as a channel, we take $\calx$ as the set of possible values 
+%for the variable (or set of variables) which secrecy we wish to protect, 
+%and $\caly$ as the set of possible outputs that the system might produce. 
+%For example, in modeling an ATM's password checker, we take $\calx$ to be the set of all
+%possible passwords, and $\caly$ to be a two-element set, one element indicating that the
+%password was accepted, and the other indicating that it was denied. 
+%
+%When $\calx$ and $\caly$ are not very large, it might be handy to represent $C$ as 
+%a matrix. 
+%Take, for example, channel $C: \calx \times \caly \rightarrow \reals$, 
+%where $\calx=\{ x_1, x_2, x_3\}$ and $\caly=\{y_1, y_2\}$, represented on Table~\ref{table:1}.
+%From this representation, we can infer, for example, that $p(y_1| x_2) =\nicefrac{1}{5}$ 
+%and $p(y_2|x_3)=1$. 
+%
+%\begin{table}[h!]
+%\centering
+%\begin{tabular}{|c|c c|}
+%    \hline
+%    $C$   & $y_1$ &$y_2$  \\
+%    \hline 
+%    $x1$&$\nicefrac{1}{4}$&$\nicefrac{3}{4}$\\
+%    $x2$&$\nicefrac{1}{5}$&$\nicefrac{4}{5}$\\
+%    $x3$&$0$&$1$\\
+%    \hline
+%\end{tabular}
+%\caption{A matrix representation of a channel}
+%\label{table:1}
+%\end{table}
+%
+%To study properties regarding information leakage in security systems, we need not only to model the system, but also to model a possible \emph{attacker}. In our framework, we assume that the attacker has access to the output of the system and to its inner workings - in our model, this coresponds to the output on $\caly$ and the channel. 
+%
+%The adversary, therefore, is not certain about the value of the secret. However, he might have some information about it, which might make some values more likely than others. We model the knowledge the adversary has about the secret before any execution of the system by a probability distribution $\pi$ over $\calx$. We call this distribution \emph{prior distribution}, or simply \emph{prior}.
+%
+%A prior $\pi$ together with a channel $C$ uniquely define $p(x,y)=\pi(x)C(x,y)$, a joint distribution over $\calx \times \caly$. We can then define, for each $y \in \caly$, a pobability distribution over $\calx$ given that output $y$ was produced, which we represent by $p(X|_y)$. This distribution - which we call \emph{posterior} - give, for each $x \in \calx$, the probability that $x$ is the value of the secret given that the system produced output $y$. We also define, for every $y \in \caly$, the marginal probability $p(y)=\sum_x p(x,y)$.
+%
+%
+%A savvy adversary would, after executing the system and observing an output $y$, update his knowledge about the secret. By \emph{Bayesian inference}, his state of knowledge about the secret changed from $\pi$ to $p(X|_y)$. It seems natural, therefore, to measure information leakage of a system in terms of the adversary's knowledge about the secret prior and posterior to the system's execution. 
+%
+%To obtain a proper measure of information leakage, we also define a \emph{gain function} $g: \calw \times \calx \rightarrow [0,1]$, which domain is the cartesian product of a set $\calw$ of \emph{actions} and the set of secret values $\calx$. The set of actions represent the actions that the adversary can take, and $g(w,x)$ is the \emph{gain} that the adversary obtains when he takes action $w \in \calw$ and the value of the secret is $x \in \calx$.
+%
+%We are now ready to define the functions that measure the information leakage of our system. Given a channel $C$, a gain function $g$ and a prior $\pi$, we define the \emph{prior $g$-vulnerability} by
+%
+%$$V_g[\pi]=\max\limits_{w \in \calw} \sum_{x \in \calx} \pi(x) g(w,x).$$
+%
+%Intuitively, the prior $g$-vulnerability measures the expected gain of the adversary, based on his prior knowledge about the secret, if he takes the best action possible. We also define the \emph{posterior $g$-vulnerability} by
+%\begin{align*}
+%V_g\hyperc{\pi}{C}=\sum_{y \in \caly}\max\limits_{w \in \calw} \sum_{x \in \calx} \pi(x) g(w,x)C(x,y). \\
+%\end{align*}
+%This formula does not, at first, provide any insight about the  meaning of the posterior vulnerability. We can, however, reorganize it in a more meaningful way
+%\begin{align*}
+%V_g\hyperc{\pi}{C}&=\sum_{y \in \caly}\max\limits_{w \in \calw} \sum_{x \in \calx} \pi(x) g(w,x)C(x,y) \\
+%&=\sum_{y \in \caly}\max\limits_{w \in \calw} \sum_{x \in \calx} p(x,y) g(w,x) \\
+%&=\sum_{y \in \caly}p(y)\max\limits_{w \in \calw} \sum_{x \in \calx} p(x|y) g(w,x) \\
+%&=\sum_{y \in \caly}p(y)V_g(p(X|_y) \\
+%\end{align*}
+%from which is clear that the posterior $g$-vulnerability is actually the \emph{expected prior $g$-vulnerability} of the secret after the execution of the system. Therefore, by comparing the prior and posterior $g$-vulnerabilities, we can infer the amount of information leaked by the system.
+%
+%This $g$-vulnerability framework was first defined by \cite{alvim}, as a way to generalize the well-known min-leakage \cite{minentropy}. These metrics turned out to be very powerful, and it has been recently shown \cite{axioms} that, with a suitable choice of $g$, they can represent any leakage measure that "makes sense" (i.e., respect some intuitive properties).
+%
+%There are two natural ways to compare prior and posterior vulnerabilities, by considering either their \emph{ratio} and their \emph{difference}. Thus, we define the \emph{multiplicative $g$-leakage} by
+%$$\mathcal{L}_g\hyperc{\pi}{C}=\log\left(\frac{V_g\hyperc{\pi}{C}}{V_g[\pi]}\right),$$
+%and the the \emph{additive $g$-leakage} by
+%$$\mathcal{L}^+_g\hyperc{\pi}{C}=V_g\hyperc{\pi}{C}-V_g[\pi].$$
+%
+%Both the multiplicative and additive $g$-leakages seem to give useful information about the system. However, they depend not only on the channel $C$- which represents the system - but also on the prior $\pi$ and on the gain-function $g$, both which can vary with the adversary's interest and knowledge. To obtain a better understanding about the properties of the channel, \cite{addmult} defined a series of quantities - referred to as "capacities" - which give upper bounds on the additive and multiplicative $g$-leakages. These are defined as follows.
+%
+%\paragraph{Multiplicative Capacities}
+%\begin{enumerate}
+%\item $\mathcal{L}_g\hyperc{\forall}{C}=\max\limits_{\pi} \mathcal{L}_g\hyperc{\pi}{C}$
+%\item $\mathcal{L}_\forall\hyperc{\pi}{C}=\max\limits_{g} \mathcal{L}_g\hyperc{\pi}{C}$
+%\item $\mathcal{L}_\forall\hyperc{\forall}{C}=\max\limits_{\pi,g} \mathcal{L}_g\hyperc{\pi}{C}$
+%\end{enumerate}
+%
+%\paragraph{Additive Capacities}
+%\begin{enumerate}
+%\item $\mathcal{L}^+_g\hyperc{\forall}{C}=\max\limits_{\pi} \mathcal{L}^+_g\hyperc{\pi}{C}$
+%\item $\mathcal{L}^+_\forall\hyperc{\pi}{C}=\max\limits_{g} \mathcal{L}^+_g\hyperc{\pi}{C}$
+%\item $\mathcal{L}^+_\forall\hyperc{\forall}{C}=\max\limits_{\pi,g} \mathcal{L}^+_g\hyperc{\pi}{C}$
+%\end{enumerate}
+%
+%Unfortunately, it is not yet known how to compute $\mathcal{L}_g\hyperc{\forall}{C}$ and $\mathcal{L}^+_\forall\hyperc{\forall}{C}$. However, in \cite{addmult} there are descriptions of algorithms to compute the other four capacities. $\mathcal{L}_\forall\hyperc{\pi}{C}$, $\mathcal{L}_\forall\hyperc{\forall}{C}$ and $\mathcal{L}^+_\forall\hyperc{\pi}{C}$ can be computed in time linear to the size of the channel $C$. $\mathcal{L}^+_g\hyperc{\forall}{C}$, however, is NP-hard. We will use these capacities to compare our protocols in Section~\ref{sec:analyz}

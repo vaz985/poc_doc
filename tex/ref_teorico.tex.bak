@@ -1,0 +1,31 @@
+%Apresente os conceitos pertinentes para que o leitor entenda o problema e sua importância. Nesse momento, o aluno pode não ter domínio completo dos trabalhos relacionados. Fazer um breve resumo das soluções já existentes na literatura/mercado e como elas se comparam ao trabalho proposto. No caso de trabalhos de cunho tecnológico, listar ferramentas que resolvem o mesmo problema sendo tratado.
+
+% No framework, modelos de seguranca sao modelados como canais de informacao teorico.
+% Definir canal
+% 
+
+No campo de QIF, modelos de segurança são modelados como canais de informação. Um canal é definido como uma função $C: \calx \times \caly \rightarrow \reals$ onde $\calx$ é o grupo das entradas, ou valores secretos, e $\caly$ é grupo dos outputs, ou observáveis:
+
+$$ C(x,y) = p(y|x) $$
+
+$C(x,y)$ é a probilidade do sistema produzir o observável $y$ dado o segredo $x$, $\forall x \in \calx$ e $\forall y \in \caly$.
+
+Por exemplo, podemos modelar um sistema de login onde $\calx$ é o grupo de todas as possíveis senhas e $\caly$ um grupo de 2 elementos, se a senha é certa ou errada. Nesse sistema apenas um elemento é correto e o restante incorreto.
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c c|}
+    \hline
+    $C$   & Correto & Incorreto  \\
+    \hline 
+    $"123455"$&0&1\\
+    $"123456"$&1&0\\
+    \hline
+\end{tabular}
+\caption{Representação matricial de um canal}
+\label{Tabela:1}
+\end{table}
+Esse exemplo é determinista e interessante para perceber a interpretação do canal porem em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo.
+
+Para entender como a informação vaza é preciso modelar também o \emph{atacante}, é assumido que o observável e o sistema é conhecido. Alem disso, o adversário pode saber um pouco sobre o segredo antes do sistema executar e é defindo como distribuição apriori, uma distribuição de probabilidades sobre os segredos. 
+
+%In the QIF framework, security models are modeled as information-theoretical channels. A channel $C: \calx \times \caly \rightarrow \reals$ where $\calx$ is the set of inputs, or secret values, and $\caly$ is the set of outputs, or observables

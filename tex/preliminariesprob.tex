@@ -1,0 +1,120 @@
+%In this section, we will introduce some notions of probabilistic model checking that are important for the remainder of this report. We will also discuss the basic features of PRISM \cite{PRISM}, the model checker we used on this project.
+
+Here we briefly review key concepts from probabilistic model checking, and \review{some of }the basic
+features of the model checker we use, PRISM\cite{PRISM}.
+\review{Our formalism and notation are similar to that used by C. Baier and J.-P. Katoen~\cite{Baier}, and D. Parker~\cite{Par02}}.
+
+%\commentM{Arthur, you can still trim this section down quite a bit, right?}
+%\replyA{Yes, I can simplify it quite a bit if necessary. Please see the comment below.}
+\subsubsection{Discrete Time Markov Chains.}
+
+Probabilistic model checking works by modeling the system of interest as a 
+%type of 
+probabilistic automaton. 
+%The PRISM model checker\cite{PRISM} supports discrete-time Markov chains (DTMC), 
+%continuous-time Markov chains (CTMC), Markov decision processes (MDP),
+%and probabilistic timed automata (PTA). 
+All protocols in this paper are modeled as discrete-time Markov chains (DTMC).
+
+A \emph{discrete-time Markov chain} $M$ is a tuple $M=(S,P,i,AP,L)$ such that
+%\begin{enumerate}
+%\item $S$ is a (finite and nonempty) set of \emph{states},
+%\item $P: S \times S \rightarrow [0,1]$ is the \emph{probabilistic transition function},
+%\item $i \in S$ is the initial state,
+%\item $AP$ is the set of atomic propositions, and $L: S \rightarrow 2^{AP}$ is a labeling function.
+%\end{enumerate}
+$S$ is a (finite and nonempty) set of \emph{states},
+$P: S \times S \rightarrow [0,1]$ is the \emph{probabilistic transition function},
+$i \in S$ is the initial state,
+$AP$ is the set of atomic propositions, and 
+$L: S \rightarrow 2^{AP}$ is a labeling function.
+We also require that, for all $s \in S$, $\sum_{s' \in S} P(s,s') = 1$. 
+
+A \emph{path} $\omega$ in a DTMC is a infinite sequence of states $s_0s_1...$ 
+such that, for all $k \geq 0$, $P(s_k,s_{k+1})>0$. \commentA{ If we give a less formal definition of PCTL, I think we can take out this entire paragraph. But being a formal 
+methods conference, I feel that it might be interesting to leave this if it is possible }
+Any execution of a DTMC corresponds to a path. 
+Therefore, in order to reason about probabilities over executions of a DTMC, 
+we must first associate a probability to each path.
+%
+For each $s \in S$, we define $Path_s$ to be the set of all paths that start 
+on $s$. 
+A probability distribution $Prob_s$ over $Path_s$ is defined as follows. 
+Let $\omega_f=s \,s_1 \,... \,s_n$ be any finite path starting in $s$, and $Cyl(\omega_f)$ 
+be the set of (infinite) paths that have $\omega_f$ as a prefix. 
+Let $\Sigma_s$ be the smallest $\sigma$-algebra on $Path_s$ that contains $Cyl(\omega_f)$ for all $\omega_f$ starting in $s$. We define $Prob_s$ as the unique probability distribution on $\Sigma_s$ such that $Prob_s(Cyl(\omega_f))=P(s,s_1)...P(s_{n-1},s_n)$ for all finite 
+paths $\omega_f$ starting in $s$. 
+%\commentM{I'm not sure I understand this definition: $Prob_s$ is
+%not itself a $\sigma$-algebra, is it?}
+%\replyA {That was wrong! Tried to be concise, ended up eating words}
+%In this manner, $Prob_s$ is well defined in all paths starting in $s$, 
+%for all states $s \in S$.
+
+\subsubsection{PCTL.} \review{\cite{Hansson}}
+The temporal logic used by PRISM to verify properties of DTMCs is the PCTL 
+(Probabilistic Computational Tree Logic), 
+%which is an extension of the CTL. 
+%It's syntax is given by
+whose syntax is given by:
+\begin{align*}
+\phi &::= true \; | \; a \; | \; \phi_1 \wedge \phi_2  \; | \; \neg \phi  \; | \;  \mathcal{P}_{\bowtie p}(\review{\psi})\\
+\psi &::= \mathcal{X}\phi  \; | \;  \phi_1 \mathcal{U}^{\leq k} \phi_2  \; | \;\phi_1 \mathcal{U} \phi_2  
+\end{align*}
+Here $\phi$ represents state formulas and $\psi$ path formulas, 
+$a$ is an atomic proposition, $p \in [0,1]$, and $\bowtie$ is a symbol 
+to represent either $\leq,<,>$ or $\geq$. 
+The semantics of the \emph{probabilistic path operators} 
+$\mathcal{P}_{\bowtie \, p}$ 
+%for $\bowtie \in \, \{ <, \leq, >, \geq \}$ 
+is 
+$s\models \mathcal{P}_{\bowtie \, p}(\psi) \Leftrightarrow Prob_s(\{\omega \in Path_s | \omega \models \psi\} ) \bowtie \, p $, for all $s \in S$.  
+The operators \emph{next} ($\mathcal{X}$), 
+\emph{bounded until} ($\mathcal{U}^{\leq k}$) 
+and \emph{until} ($\mathcal{U}$) are defined as usual. 
+
+Intuitively, $\mathcal{P}_{\bowtie p}(\psi)$ is satisfied by a state $s$ 
+if the probability of taking a path starting at $s$ which satisfies $\psi$ 
+is in the interval determined by $\bowtie p$. 
+This operator allows PRISM to calculate probabilities of certain event ocurring,
+a feature that is extremely useful in calculating channels,
+as we discuss in section \ref{sec:model}.
+\commentA{Without the code, I don't see the point of having a subsection
+explaining the PRISM language. I commented it out.}
+
+%The semantics of the \emph{probabilistic path operators} 
+%$\mathcal{P}_{\leq p}, \mathcal{P}_{< p},\mathcal{P}_{\geq p}$ and 
+%$\mathcal{P}_{> p}$, is, for all $s \in S$:
+%\begin{align*}
+%s\models \mathcal{P}_{\leq p}(\psi) &\Leftrightarrow Prob_s(\{\omega \in Path_s | \omega \models \psi\} ) 
+%\leq p\\
+%s\models \mathcal{P}_{< p}(\psi) &\Leftrightarrow Prob_s(\{\omega \in Path_s | \omega \models \psi\} ) 
+%< p\\
+%s\models \mathcal{P}_{\geq p}(\psi) &\Leftrightarrow Prob_s(\{\omega \in Path_s | \omega \models \psi\} ) 
+%\geq p\\
+%s\models \mathcal{P}_{> p}(\psi) &\Leftrightarrow Prob_s(\{\omega \in Path_s | \omega \models \psi \} ) 
+%> p
+%\end{align*}
+
+
+%\subsubsection{The PRISM language.}
+%
+%The PRISM language has two main components: \emph{variables} and \emph{modules}. Modules 
+%can both read and write internal variables, but can only read variables of other modules. 
+%The behaviour of a module is defined by \emph{commands}, which have the following form:
+%\begin{verbatim}
+%[] guard -> prob_1: update_1 + ... + prob_n: update_n;
+%\end{verbatim}
+%Here, \texttt{guard} is a boolean condition, which may depend on any variable  of the 
+%entire model. If this condition is satisfied, the command may be executed. Each 
+%\texttt{update\_i} is a assignment to the module's variables. If the command is executed, 
+%then exactly one of the updates is selected according to the probability \texttt{prob\_i}.
+
+%For instance, in the following line
+%\begin{verbatim}
+%[] x=0 -> 0.8: (x'=0) + 0.2: (x'=1);
+%\end{verbatim}
+%states that if the variable \texttt{x} equals 0, 
+%the command will be executed. 
+%If it is executed, there is 80\% of chance that \texttt{x}'s 
+%value will continue to be 0, and 20\% of chance that 
+%it will change to 1. 

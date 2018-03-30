@@ -1,0 +1,46 @@
+In this work we presented a systematic way of deriving channels
+representing the behavior of security protocols, and used
+these channels to derive robust information-flow guarantees
+about these protocols.
+More precisely, we provided the first analyses of additive
+and multiplicative $g$-capacities of two versions of the
+Dining Cryptographers and the Crowds anonymity protocols.
+The bounds provided hold irrespectively of the probability 
+distribution on secret values, or of the interests and goals 
+of an adversary, constituting, to the best of our knowledge,
+the most general information-flow analyses of such protocols 
+ever performed.
+
+Future work could lead to a general purpose tool support to allow 
+the computation of critical information flow properties.
+Moreover, we want to explore algorithms for computing capacities
+for systems whose possible contexts of execution are limited
+in a more restricted set of priors and gain-functions.
+
+%It also reveals results of  $\mathcal{L}^+_\forall \hyperc{\pi}{C}$ 
+%for the anonymity protocols Crowds and Dining Cryptographers, which 
+%has not been done before. The amount of data collected is large and 
+%the possibilities of different analyses are endless, so what has
+% been done so far is in no way exhaustive.
+%
+%The results found on this project also raise a great number of questions. 
+%The better performance of the complete variation over the cycle one of the 
+%Dining Cryptographers suggest that the first family of channel might be 
+%always more secure than the second one, regarding the channel ordering 
+%proposed in \cite{robust}. 
+%The same can be said about the regular variation and the grid one 
+%regarding the Crowds protocol.
+%
+%A natural next step, thus, would be to try to prove that this ordering hold 
+%for this channels analytically, or, if it is the case, find an example of 
+%$g$ and $\pi$ where that prove our conjecture wrong.
+%
+%There is also still a lot of analyses that can be done with the data we 
+%acquired this far. 
+%There is a wide range of less immediate priors and gain functions that 
+%might be useful in certain contexts, therefore an analyses of the 
+%capacities regarding these might be of future interest.
+% Furthermore, we also wish to improve our algorithms, maybe even 
+% devising some way to calculate $\mathcal{L}^+_g\hyperc{\forall}{C}$,
+%  which is NP-hard efficiently enough, to enable us to derive results 
+%  for small channels, at least
