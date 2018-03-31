@@ -4,7 +4,7 @@
 % Definir canal
 % 
 
-No campo de QIF, modelos de segurança são modelados como canais de informação. Um canal é definido como uma função $C: \calx \times \caly \rightarrow \reals$ onde $\calx$ é o grupo das entradas, ou valores secretos, e $\caly$ é grupo dos outputs, ou observáveis:
+No campo de QIF, sistemas de segurança são modelados como canais de informação. Um canal é definido como uma função $C: \calx \times \caly \rightarrow \reals$ onde $\calx$ é o grupo das entradas, ou valores secretos, e $\caly$ é grupo dos outputs, ou observáveis:
 
 $$ C(x,y) = p(y|x) $$
 
@@ -26,8 +26,8 @@ Por exemplo, podemos modelar um sistema de login onde $\calx$ é o grupo de toda
 \end{table}
 Esse exemplo é determinista e interessante para perceber a interpretação do canal porem em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo.
 
-Para entender como a informação vaza é preciso modelar também o \emph{atacante}, é assumido que o observável e o sistema é conhecido. Alem disso, o adversário pode saber um pouco sobre o segredo antes do sistema executar e é defindo como distribuição apriori $\pi$ em $\calx$, uma distribuição de probabilidades sobre os segredos. 
-%Talvez remover ", uma distribuicao de probabilidades sobre os segredos."
+Para entender como a informação vaza é preciso modelar também o \emph{atacante}, que conhece o observável e como o sistema funciona. Alem disso, o adversário pode saber alguma coisa sobre o segredo antes do sistema executar e é defindo como a distribuição apriori $\pi$ em $\calx$ sobre os segredos.
+%Talvez remover ", uma distribuicao de probabilidades sobre os segredos."%
 
 
 
