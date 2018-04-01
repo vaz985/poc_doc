@@ -17,18 +17,29 @@ Por exemplo, podemos modelar um sistema de login onde $\calx$ é o grupo de toda
     \hline
     $C$   & Correto & Incorreto  \\
     \hline 
-    $"123455"$&0&1\\
+%    $"123455"$&0&1\\
     $"123456"$&1&0\\
+    Restante &0&1\\
     \hline
 \end{tabular}
 \caption{Representação matricial de um canal}
-\label{Tabela:1}
+\label{Canal}
 \end{table}
-Esse exemplo é determinista e interessante para perceber a interpretação do canal porem em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo.
+A Tabela 1 mostra como o canal do login é simples e interessante para perceber a interpretação do canal. Em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo(Tab. 2).
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c c c|}
+    \hline
+    $C$   & $y_1$ & $y_2$ & $y_3$  \\
+    \hline 
+    $x_1$&0.4&0.3&0.3\\
+    $x_2$&0.2&0.8&0\\
+    \hline
+\end{tabular}
+\caption{Representação matricial de um canal}
+\label{Canal}
+\end{table}
 
-Para entender como a informação vaza é preciso modelar também o \emph{atacante}, que conhece o observável e como o sistema funciona. Alem disso, o adversário pode saber alguma coisa sobre o segredo antes do sistema executar e é defindo como a distribuição apriori $\pi$ em $\calx$ sobre os segredos.
-%Talvez remover ", uma distribuicao de probabilidades sobre os segredos."%
+Para entender como a informação vaza é preciso modelar também o \emph{atacante}, que conhece o observável e como o sistema funciona. Alem disso, o adversário pode saber alguma coisa sobre o segredo antes do sistema executar que é defindo como a distribuição a priori $\pi$ em $\calx$ sobre os segredos.
 
-
-
-%In the QIF framework, security models are modeled as information-theoretical channels. A channel $C: \calx \times \caly \rightarrow \reals$ where $\calx$ is the set of inputs, or secret values, and $\caly$ is the set of outputs, or observables
+O conhecimento a priori 

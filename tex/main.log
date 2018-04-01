@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.8.4)  30 MAR 2018 20:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.8.4)  1 APR 2018 00:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -745,7 +745,11 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip53
 ))
-(./main.aux)
+(./main.aux
+
+LaTeX Warning: Label `Canal' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
@@ -762,8 +766,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
-
-(/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count145
 \scratchdimen=\dimen151
@@ -820,48 +823,57 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 66.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(./introduction.tex) (./ref_teorico.tex) (./metodologia.tex [1
+(./introduction.tex) (./ref_teorico.tex
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[1
 
 
-{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) (./res
-ultados.tex)
-(./etapas.tex)
-Overfull \hbox (13.04373pt too wide) in paragraph at lines 1--86
-\OT1/cmr/m/n/10 Descrever o crono-grama pre-visto para a re-al-iza^^Xc~ao dos p
-as-sos definidos na Metodolo-
- []
-
+{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+(./metodologia.tex) (./resultados.tex [2]) (./etapas.tex
+<roadmap.png, id=31, 658.46pt x 169.63374pt>
+File: roadmap.png Graphic file (type png)
+ <use roadmap.png>
+Package pdftex.def Info: roadmap.png used on input line 30.
+(pdftex.def)             Requested size: 263.37933pt x 67.85228pt.
+)
 No file main.bbl.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 95.
-[2]
+[3 <./roadmap.png>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 95.
  (./main.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 95.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 95.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 95.
  ) 
 Here is how much of TeX's memory you used:
- 8074 strings out of 492995
- 117329 string characters out of 6132705
- 216146 words of memory out of 5000000
- 11491 multiletter control sequences out of 15000+600000
+ 8086 strings out of 492995
+ 117473 string characters out of 6132705
+ 218185 words of memory out of 5000000
+ 11498 multiletter control sequences out of 15000+600000
  10305 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,10n,40p,434b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,10n,40p,434b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
 /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
 sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/lo
-cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local
-/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (2 pages, 99369 bytes).
+/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/lo
+cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/te
+xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texl
+ive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (3 pages, 133848 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 81 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
+ 14 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

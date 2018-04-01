@@ -19,17 +19,22 @@
 
 O projeto consiste em implementar as ferramentas e analisar a diferença entre a aproximação do vazamento, usando os operadores, e o cálculo exato feito diretamente no canal.
 
-A primeira parte do projeto é implementar uma biblioteca em C++ que contenha o ferramental mínimo para fazer a analise. Essa biblioteca vai conter:
+A primeira parte do projeto é implementar uma biblioteca em C++ que contenha o ferramental para analise. Essa biblioteca vai conter:
 
 \begin{itemize}
-  \item{Parser}
   \item{Estrutura do canal}
+  \item{Utilidades para a classe do canal}
   \item{Métricas antigas}
   \item{Métricas novas}
   \item{Operadores de composição}
+%\item{Parser}
 \end{itemize}
 
-O Parser foi implementado para permitir operações de composição com vários canais de forma simples. O canal vai ser definido como uma classe onde as métricas e operadores serão métodos.
+O canal vai ser definido como uma classe onde as métricas e os operadores são métodos. 
+Será implementado algumas utilidades, por exemplo gerar um canal aleatorio.
+%Um Parser foi implementado para permitir operações de composição com vários canais de forma simples. 
 
-A segunda parte é analisar a efetividade dos operadores de composição, a maior dificuldade do processo de medir o vazamento de informação é a propria modelagem do sistema. 
-%Dessa forma, ter um metodo aproximativo onde é possivel construir o sistema de forma modular e derivar o canal 
+A segunda parte é analisar a efetividade dos operadores de composição.
+Existem dois protocolos de segurança, \emph{Dining Cryptographers} e \emph{Crowds}, comuns na literatura de QIF que podem ser usados para comparar o vazamento de informação usando os métodos diferentes.
+%Obter um canal não é trivial e os operadores de composição permitem uma nova abordagem a esse problema, com eles é possível modelar partes do sistema e compor o canal. 
+%Essa abordagem é natural para sistemas de segurança pois muitas vezes são compostos de entidades separadas que se relacionam.
