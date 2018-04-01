@@ -19,7 +19,7 @@
 
 O projeto consiste em implementar as ferramentas e analisar a diferença entre a aproximação do vazamento, usando os operadores, e o cálculo exato feito diretamente no canal.
 
-A primeira parte do projeto é implementar uma biblioteca em C++ que contenha o ferramental para analise. Essa biblioteca vai conter:
+A primeira parte do projeto é implementar uma biblioteca em C++ que contenha o ferramental para análise. Essa biblioteca vai conter:
 
 \begin{itemize}
   \item{Estrutura do canal}

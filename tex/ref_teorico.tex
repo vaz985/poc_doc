@@ -4,20 +4,20 @@
 % Definir canal
 % 
 
-No campo de QIF, sistemas de segurança são modelados como canais de informação. Um canal é definido como uma função $C: \calx \times \caly \rightarrow \reals$ onde $\calx$ é o grupo das entradas, ou valores secretos, e $\caly$ é grupo dos outputs, ou observáveis:
+No campo de QIF, sistemas são modelados como canais de informação. Um canal é definido como uma função $C: \calx \times \caly \rightarrow \reals$ onde $\calx$ é o grupo das entradas, ou valores secretos, e $\caly$ é grupo das saídas, ou observáveis:
 
 $$ C(x,y) = p(y|x) $$
 
 $C(x,y)$ é a probilidade do sistema produzir o observável $y$ dado o segredo $x$, $\forall x \in \calx$ e $\forall y \in \caly$.
 
-Por exemplo, podemos modelar um sistema de login onde $\calx$ é o grupo de todas as possíveis senhas e $\caly$ um grupo de 2 elementos, se a senha é certa ou errada. Nesse sistema apenas um elemento é correto e o restante incorreto.
+Por exemplo, podemos modelar um sistema de \emph{login} onde $\calx$ é o grupo de todas as possíveis senhas e $\caly$ um grupo de 2 elementos, se a senha é correta ou incorreta. Nesse sistema apenas um elemento é correto e o restante incorreto.
 \begin{table}[h!]
 \centering
 \begin{tabular}{|c|c c|}
     \hline
     $C$   & Correto & Incorreto  \\
     \hline 
-%    $"123455"$&0&1\\
+% $"123455"$&0&1\\
     $"123456"$&1&0\\
     Restante &0&1\\
     \hline
@@ -25,21 +25,44 @@ Por exemplo, podemos modelar um sistema de login onde $\calx$ é o grupo de toda
 \caption{Representação matricial de um canal}
 \label{Canal}
 \end{table}
-A Tabela 1 mostra como o canal do login é simples e interessante para perceber a interpretação do canal. Em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo(Tab. 2).
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c c c|}
-    \hline
-    $C$   & $y_1$ & $y_2$ & $y_3$  \\
-    \hline 
-    $x_1$&0.4&0.3&0.3\\
-    $x_2$&0.2&0.8&0\\
-    \hline
-\end{tabular}
-\caption{Representação matricial de um canal}
-\label{Canal}
-\end{table}
+A Tabela 1 mostra como o canal do login é simples e interessante para perceber a interpretação do canal. Em sistemas de segurança é comum ter varios observáveis possíveis para cada segredo.
+%\begin{table}[h!]
+%\centeringx`
+%\begin{tabular}{|c|c c c|}
+%    \hline
+%    $C$   & $y_1$ & $y_2$ & $y_3$  \\
+%    \hline 
+%    $x_1$&0.4&0.3&0.3\\
+%    $x_2$&0.2&0.8&0\\
+%    \hline
+%\end{tabular}
+%\caption{Representação matricial de um canal}
+%\label{Canal}
+%\end{table}
 
-Para entender como a informação vaza é preciso modelar também o \emph{atacante}, que conhece o observável e como o sistema funciona. Alem disso, o adversário pode saber alguma coisa sobre o segredo antes do sistema executar que é defindo como a distribuição a priori $\pi$ em $\calx$ sobre os segredos.
+Para entender como a informação vaza é preciso modelar também o \emph{atacante}, que vê o observável e conhece o funcionamento do sistema. Alem disso, o adversário pode saber alguma coisa sobre o segredo antes do sistema executar, defindo como distribuição a priori $\pi$ em $\calx$.
 
-O conhecimento a priori 
+Para quantificar a vunerabilidade do sistema muitas funções foram usadas na literatura, como a \emph{Shannon Entropy}[], \emph{Guessing Entropy}[], \emph{Bayes Vunerability}[] e \emph{Rényi min-entropy}[]. Recentemente, \emph{g-leakage} foi proposto e teve muito sucesso em generalizar as funções anteriores e capturar novos cenários[Measuring Information Leakage using Generalized Gain Functions].
+
+Nessa estrutura, o grupo de ações possíveis $\calw$ e uma função de ganho $g:\calw \times \calx \rightarrow [0,1]$ definem o ganho do adversário ao escolher uma ação $w\in\calw$ dado o segredo $x\in\calx$. Dado uma função de ganho $g$, a \emph{g-vunerability} a priori é:
+$$ V_g[\pi] = \max_{w\in\calw} \sum_{x\in\calx} \pi(x)g(w,x) $$
+A \emph{g-vunerability} a priori mede o ganho esperado do adversário baseado no seu conhecimento prévio sobre o segredo se tomar a melhor decisão. Precisamos definir também a vunerabilidade posterior:
+\begin{align*}
+V_g[\pi\rangle C]  & = \sum_{y\in\caly} \max_{w\in\calw} \sum_{x\in\calx} \pi(x)g(w,x)C(x,y) \\
+& = \sum_{y\in\caly} p(y) V_g(p(X|_y)
+\end{align*}
+O vazamento de informação é o aumento da vunerabilidade do segredo causado pela observação do output do sistema. 
+Vazamento é definido pela comparação da vunerabilidade posterior e a priori do segredo, existe a noção multiplicativa e aditiva[Additive and multiplicative notions of leakage, and their capacities]:
+\begin{align*}
+\mathcal{L}^{\times}_{g}[\pi\rangle C] = \frac{V_g[\pi\rangle C]}{V_g[\pi]}&\hspace{1cm}&\mathcal{L}^{+}_{g}[\pi\rangle C] = {V_g[\pi\rangle C]} - {V_g[\pi]}
+\end{align*}
+Em[An Algebraic Approach for Reasoning About Information Flow] é definido operadores que capturam a interação entre os componentes. 
+%Se dois canais possuem a mesma entrada então são canais \emph{compatíveis}.
+\subsection*{Operador paralelo $\parallel$}  
+O operador paralelo modela a composição de dois canais que recebem a mesma entrada e as respectivas saídas observadas. 
+
+%\textbf{Definição}: Dado canais compatíveis $C_1: \calx \times \caly_1 \rightarrow \reals$ e $C_2: \calx \times \caly_2 \rightarrow \reals$ sua composição paralela é definida por $\C_1 \parallel C_2 : \calx \times ( Y_1 \times Y_2) \rightarrow \reals$ $\forall x \in \calX, y_1 \in \caly_1 e y_2\in\caly_2.
+\subsection*{Operador visible choice ${}_p{\cupdot}$}  
+O operador visible choice, escolha visível, modela a escolha de qual canal executar a entrada, cada canal recebe uma probabilidade de executar. É retornado a saída e um identificador do canal executado.
+\subsection*{Operador hidden choice ${}_p{\oplus}$}  
+Igual ao visível porem é retornado a saída sem um identificador.
