@@ -19,7 +19,7 @@ Por exemplo, podemos modelar um sistema de \emph{login} onde $\calx$ é o grupo 
 \caption{Representação matricial de um canal}
 \label{Canal}
 \end{table}
-A Tabela 1 mostra como o canal do login é simples e interessante para perceber a interpretação do canal. Em sistemas de segurança é comum ter varias observáveis possíveis para cada segredo.
+O canal do login(Table 1) é simples e interessante para perceber a interpretação do canal. Em sistemas de segurança é comum ter varias observáveis possíveis para cada segredo.
 %\begin{table}[h!]
 %\centeringx`
 %\begin{tabular}{|c|c c c|}
@@ -51,7 +51,7 @@ Vazamento é definido pela comparação da vulnerabilidade posterior e a priori 
 \begin{align*}
 \mathcal{L}^{\times}_{g}[\pi\rangle C] = \frac{V_g[\pi\rangle C]}{V_g[\pi]}&\hspace{1cm}&\mathcal{L}^{+}_{g}[\pi\rangle C] = {V_g[\pi\rangle C]} - {V_g[\pi]}
 \end{align*}
-Em\cite{Americo} é definido operadores que capturam a interação entre os componentes. 
+Em\cite{Americo} é definido operadores que capturam a interação entre os componentes e uma modelagem do protocolo \emph{Dining Cryptographers} é apresentada.
 %Se dois canais possuem a mesma entrada então são canais \emph{compatíveis}.
 \subsection*{Operador paralelo $\parallel$}  
 O operador paralelo modela a composição de dois canais que recebem a mesma entrada e as respectivas saídas observadas. 
@@ -62,9 +62,11 @@ O operador paralelo modela a composição de dois canais que recebem a mesma ent
 O operador \emph{visible choice} modela a escolha de qual canal executar a entrada, cada canal recebe uma probabilidade de executar. É retornado a saída e um identificador do canal executado.
 
 \textbf{Definição}: Dado \emph{canais compativeis} $C_1:\calx\times\caly_1 \rightarrow \reals$ e $C_2:\calx\times\caly_2 \rightarrow \reals$, a \emph{hidden choice} é o \emph{canal} $C_1 {}_p{\cupdot} C_2: \calx\times (\caly_1 \sqcup \caly_2)\rightarrow\reals$, para todo $x\in\calx$ e $(y,i)\in\caly_1\sqcup\caly_2$,
-$$ (C_1 {}_p{\cupdot} C_2)(x,(y,i)) =  $$ 
+$$ (C_1 {}_p{\cupdot} C_2)(x,(y,i)) = \begin{cases}p \cdot C_1(x,y), & se \hspace{0.1cm} i=1 \\ (1-p) \cdot C_2(x,y) & se \hspace{0.1cm} i=2\end{cases} $$
 
 \subsection*{Operador hidden choice ${}_p{\oplus}$}  
 O operador \emph{hidden choice} é semelhante ao visível porem é retornado a saída sem um identificador.
 
-\textbf{Definição}: Dado \emph{canais compativeis} $C_1:\calx\times\caly_1 \rightarrow \reals$ e $C_2:\calx\times\caly_2 \rightarrow \reals$, a \emph{hidden choice} é o \emph{canal} $C_1 {}_p{\oplus} C_2: \calx\times (\caly_1 \cup \caly_2)\rightarrow\reals$, para todo $x\in\calx$ e $(y,i)\in\caly_1\cup\caly_2$,
+\textbf{Definição}: Dado \emph{canais compatíveis} $C_1:\calx\times\caly_1 \rightarrow \reals$ e $C_2:\calx\times\caly_2 \rightarrow \reals$, a \emph{hidden choice} é o \emph{canal} $C_1 {}_p{\oplus} C_2: \calx\times (\caly_1 \cup \caly_2)\rightarrow\reals$, para todo $x\in\calx$ e $(y,i)\in\caly_1\cup\caly_2$,
+$$ (C_1 {}_p{\oplus} C_2)(x,y) = \begin{cases}p \cdot C_1(x,y) + (1-p) \cdot C_2(x,y), & se \hspace{0.1cm} y \in \caly_1 \cap \caly_2 \\ p \cdot C_1(x,y) & se \hspace{0.1cm} y\in\caly_1 \setminus \caly_2, \\ (1-p) \cdot C_2(x,y), & se \hspace{0.1cm} y\in\caly_2 \setminus \caly_1.\end{cases} $$
+
