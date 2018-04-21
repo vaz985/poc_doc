@@ -1,0 +1,11 @@
+#!/bin/bash
+
+pdflatex main.tex
+
+for auxfile in *.aux
+do
+    bibtex $auxfile
+done
+
+pdflatex main.tex
+pdflatex main.tex
